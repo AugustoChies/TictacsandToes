@@ -64,6 +64,7 @@ public static class MinMax
         }
         else
         {
+            Debug.Log(treeDepth);
             RecursiveMax(board, treeDepth, currentAI, out AiPlay minmaxedmove);
             bestMove = minmaxedmove;
         }        
@@ -73,7 +74,7 @@ public static class MinMax
 
    
     public static void RecursiveMax(Board board, int layers, int currentPlayer, out AiPlay this_move)
-    {
+    {        
         this_move = new AiPlay(-1, -1);
         currentPlayer %= 2;
         if (currentPlayer == currentAI)
@@ -101,7 +102,7 @@ public static class MinMax
             {
                 if (result - 1 == currentAI)
                 {
-                    this_move.score = 10 * layers;//faster victories are better
+                    this_move.score = 10 * layers;//faster victories are better                    
                 }
                 else
                 {

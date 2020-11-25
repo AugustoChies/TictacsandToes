@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 using TMPro;
 
 public class MenuUIController : MonoBehaviour
@@ -17,7 +18,14 @@ public class MenuUIController : MonoBehaviour
 
     
     public Canvas AISelectCanvas;
-    
+
+    #region Audio
+    public AudioMixer mixer;
+    public Slider masterSlider, musicSlider, sfxSlider;
+    public float volumeMaster, volumeMusic, volumeSFX;
+    #endregion
+
+
 
     void Start()
     {
@@ -25,6 +33,19 @@ public class MenuUIController : MonoBehaviour
         dificultyCanvas.enabled = false;
         GlobalInfo.aiSettings = AISettings.impossible;
         startButton.interactable = false;
+        mixer.GetFloat("volumeMaster",out volumeMaster);
+        mixer.GetFloat("volumeMusic", out volumeMusic);
+        mixer.GetFloat("volumeSFX", out volumeSFX);
+        masterSlider.value = volumeMaster + 60;
+        musicSlider.value = volumeMusic + 60;
+        sfxSlider.value = volumeSFX + 60;
+    }
+
+    private void Update()
+    {
+        mixer.SetFloat("volumeMaster", masterSlider.value -60);
+        mixer.SetFloat("volumeMusic",musicSlider.value -60);
+        mixer.SetFloat("volumeSFX", sfxSlider.value - 60);
     }
 
     public void ButtonSuicide(Button clicked)
